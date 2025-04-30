@@ -1,1 +1,6 @@
 rotation.png
+Makefile
+deps/*
+obj/*
+bin/*
+.DS_Store
