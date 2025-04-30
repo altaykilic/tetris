@@ -1,7 +1,15 @@
 #include "Tetris.h"
 
+#include <iostream>
+
+const pos Tetris::SPAWNPOS = {5,21};
+Uint32 Tetris::COLORS[8];
+
 void Tetris::run(){
 	init();
+	
+	std::cerr << "debug1\n";
+	
 	loop();
 }
 
@@ -11,6 +19,8 @@ void Tetris::loop(){
 	bool s_hold = 0;
 	
 	while(!gameend){
+		std::cerr << "debug2\n";
+		
 		static Uint64 fps_start = SDL_GetPerformanceCounter();
 	
 		drawBoard();
@@ -34,6 +44,7 @@ void Tetris::loop(){
 		}
 		
 		while(SDL_PollEvent(&eventobj) && !gameend){
+			std::cerr << "debug3\n";
 			switch(eventobj.type){
 				case SDL_QUIT:
 					SDL_Quit();
@@ -57,6 +68,7 @@ void Tetris::loop(){
 				break;
 				default:
 					if(eventobj.type == TIMEREVENT){
+						std::cerr << "debug4\n";
 						timercount = (timercount + 1) % 8;
 						if(s_hold){
 							board.movePiece();
@@ -83,7 +95,8 @@ void Tetris::init(){
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_TIMER);
 	
 	//create window
-	windowptr = SDL_CreateWindow("Tetris made by Altay Kilic", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
+	windowptr = SDL_CreateWindow("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
+	// windowptr = SDL_CreateWindow("Tetris made by Altay Kilic", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
 	surfaceptr = SDL_GetWindowSurface(windowptr);
 	SDL_RaiseWindow(windowptr);
 	SDL_FillRect(surfaceptr, NULL, SDL_MapRGB(surfaceptr->format, 0xff, 0xff, 0xff));
@@ -140,4 +153,19 @@ Uint32 Tetris::timerCallback(Uint32 interval, void* ptr){
 	SDL_PushEvent(&event);
 	
 	return interval;
+}
+
+Tetris::Tetris(){
+	score = 0;
+	hud.pieceQ = pieceQ;
+	timercount = 0;
+}
+
+short Tetris::pop_queue(short next){
+	short tmp = pieceQ[0];
+	for(int i=0; i<QSIZE-1; i++){
+		pieceQ[i] = pieceQ[i+1];
+	}
+	pieceQ[QSIZE-1] = next;
+	return tmp;
 }

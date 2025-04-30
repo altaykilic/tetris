@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _PIECE_H
+#define _PIECE_H
 
 #include "Pos.h"
 #include "Shape.h"
@@ -9,20 +10,11 @@ public:
 	
 	short shapeid;
 	short rotation;
-	Shape* shape;
+	Shape const* shape;
 	
 	pos coords;
 	
-	Shape* getShape();
+	Shape const* getShape();
 };
 
-Piece::Piece(short s = 0, short r = 0, pos p = {-10,-10}){
-	shapeid = s;
-	rotation = r;
-	coords = p;
-	shape = getShape();
-}
-
-Shape* Piece::getShape(){
-	return &(TETROMINOES[shapeid][rotation]);
-}
+#endif

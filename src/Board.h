@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _BOARD_H
+#define _BOARD_H
 
 #include "Piece.h"
 
@@ -26,11 +27,4 @@ public:
 	bool rotate(bool cw);
 };
 
-Board::Board(){
-	activePiece = nullptr;
-	for(int i=0; i<SIZE_x; i++) for(int j=0; j<SIZE_y; j++) grid[i][j]=0;
-}
-
-short& Board::idx(pos p){
-	return grid[p.x][p.y];
-}
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _HUD_H
+#define _HUD_H
 
 class HUD{
 public:
@@ -7,6 +8,4 @@ public:
 	short* pieceQ;
 };
 
-HUD::HUD(){
-	
-}
+#endif

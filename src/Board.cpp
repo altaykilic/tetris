@@ -1,5 +1,14 @@
 #include "Board.h"
 
+Board::Board(){
+	activePiece = nullptr;
+	for(int i=0; i<SIZE_x; i++) for(int j=0; j<SIZE_y; j++) grid[i][j]=0;
+}
+
+short& Board::idx(pos p){
+	return grid[p.x][p.y];
+}
+
 bool Board::putPiece(pos p){
 	if(p == pos(-10,-10))
 		p = activePiece->coords;

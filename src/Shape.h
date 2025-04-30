@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SHAPE_H
+#define _SHAPE_H
 
 #include "Pos.h"
 
@@ -9,15 +10,7 @@ public:
 	short colorid;
 };
 
-Shape::Shape(pos p1, pos p2, pos p3, pos p4, short c){
-	blocks[0] = p1;
-	blocks[1] = p2;
-	blocks[2] = p3;
-	blocks[3] = p4;
-	colorid = c;
-}
-
-Shape TETROMINOES[7][4]={
+Shape const TETROMINOES[7][4]={
 	{
 	Shape({-2,-1},{-1,-1},{ 0,-1},{ 1,-1}, 3),
 	Shape({ 0, 0},{ 0,-1},{ 0,-2},{ 0,-3}, 3),
@@ -54,3 +47,5 @@ Shape TETROMINOES[7][4]={
 	Shape({-2, 0},{-1, 0},{-1,-1},{ 0,-1}, 4),
 	Shape({-2,-1},{-2, 0},{-1, 0},{-1, 1}, 4)}
 };
+
+#endif

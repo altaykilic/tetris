@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _TETRIS_H
+#define _TETRIS_H
 
 #include <SDL2/SDL.h>
 #include <ctime>
@@ -7,13 +8,14 @@
 #include "Board.h"
 #include "HUD.h"
 
-const int QSIZE = 5;
-Uint32 COLORS[8];
-const int SQUARESIZE = 30;
-const pos SPAWNPOS = {5,21};
-
 class Tetris{
 public:
+	
+	static const int QSIZE = 5;
+	static Uint32 COLORS[8];
+	static const int SQUARESIZE = 30;
+	static const pos SPAWNPOS;
+	
 	Tetris();
 	
 	short pieceQ[QSIZE];
@@ -35,17 +37,4 @@ public:
 	void init();
 };
 
-Tetris::Tetris(){
-	score = 0;
-	hud.pieceQ = pieceQ;
-	timercount = 0;
-}
-
-short Tetris::pop_queue(short next){
-	short tmp = pieceQ[0];
-	for(int i=0; i<QSIZE-1; i++){
-		pieceQ[i] = pieceQ[i+1];
-	}
-	pieceQ[QSIZE-1] = next;
-	return tmp;
-}
+#endif
