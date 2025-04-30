@@ -11,9 +11,12 @@
 class Tetris{
 public:
 	
-	static const int QSIZE = 5;
+	static const int QSIZE = 7;
 	static Uint32 COLORS[8];
 	static const int SQUARESIZE = 30;
+	static const int CONTOURSIZE = 1;
+	static const int BOARDOFFSET_X = 30;
+	static const int BOARDOFFSET_Y = 30;
 	static const pos SPAWNPOS;
 	
 	Tetris();

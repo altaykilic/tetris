@@ -1,15 +1,10 @@
 #include "Tetris.h"
 
-#include <iostream>
-
 const pos Tetris::SPAWNPOS = {5,21};
 Uint32 Tetris::COLORS[8];
 
 void Tetris::run(){
 	init();
-	
-	std::cerr << "debug1\n";
-	
 	loop();
 }
 
@@ -19,8 +14,6 @@ void Tetris::loop(){
 	bool s_hold = 0;
 	
 	while(!gameend){
-		std::cerr << "debug2\n";
-		
 		static Uint64 fps_start = SDL_GetPerformanceCounter();
 	
 		drawBoard();
@@ -44,7 +37,6 @@ void Tetris::loop(){
 		}
 		
 		while(SDL_PollEvent(&eventobj) && !gameend){
-			std::cerr << "debug3\n";
 			switch(eventobj.type){
 				case SDL_QUIT:
 					SDL_Quit();
@@ -68,7 +60,6 @@ void Tetris::loop(){
 				break;
 				default:
 					if(eventobj.type == TIMEREVENT){
-						std::cerr << "debug4\n";
 						timercount = (timercount + 1) % 8;
 						if(s_hold){
 							board.movePiece();
@@ -81,9 +72,9 @@ void Tetris::loop(){
 			}
 		}
 		static Uint64 fps_end = SDL_GetPerformanceCounter();
-		float fps_elapsed = (fps_end - fps_start) / (float)SDL_GetPerformanceFrequency();
-		// std::cout << "Current FPS: " << 1.0f / fps_elapsed << '\n'; /*
-		SDL_Delay(int(16.666f - fps_elapsed * 1000.0f)); /**/
+		float elapsed = (fps_end - fps_start) / (float)SDL_GetPerformanceFrequency();
+		float delta = 6.6f - elapsed * 1000.0f;
+		if(delta > 0) SDL_Delay(delta);
 	}
 	// std::cout << "game ended\n";
 	SDL_RemoveTimer(timer);
@@ -115,7 +106,6 @@ void Tetris::init(){
 	COLORS[6]=SDL_MapRGB(surfaceptr->format, 0xff, 0xff, 0x00);
 	COLORS[7]=SDL_MapRGB(surfaceptr->format, 0xff, 0x7f, 0x00); //orange, instead of white
 	
-	
 	srand(time(NULL));
 	for(int i=0; i<QSIZE; i++){
 		pieceQ[i] = rand()%7;
@@ -132,12 +122,12 @@ void Tetris::init(){
 
 void Tetris::drawBoard(){
 	SDL_Rect rect;
-	rect.h = SQUARESIZE;
-	rect.w = SQUARESIZE;
+	rect.h = SQUARESIZE-2*CONTOURSIZE;
+	rect.w = SQUARESIZE-2*CONTOURSIZE;
 	
 	for(int i=0; i<SIZE_x; i++) for(int j=0; j<SIZE_y2; j++){
-		rect.x = i*SQUARESIZE+30;
-		rect.y = j*SQUARESIZE+30;
+		rect.x = i*SQUARESIZE+BOARDOFFSET_X+CONTOURSIZE;
+		rect.y = j*SQUARESIZE+BOARDOFFSET_Y+CONTOURSIZE;
 		SDL_FillRect(surfaceptr, &rect, COLORS[board.grid[i][SIZE_y2-j-1]]);
 	}
 }
